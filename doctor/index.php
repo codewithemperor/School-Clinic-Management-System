@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../../assets/img/aope.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../resources/css/datatables.min.css">
-    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../resources/css/remixicon/remixicon.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/responsive.css">
+    <link rel="shortcut icon" href="../assets/img/aope.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../resources/css/datatables.min.css">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/remixicon/remixicon.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
     <title>AOPE CLINIC MANAGEMENT SYSTEM - ADMIN DASHBOARD</title>
 </head>
 <body>
@@ -20,7 +20,7 @@
                         <li class="d-flex justify-content-center mt-5 mb-3">
                             <div class="w-50">
                                 <div class="text-center w-100 ">
-                                    <img src="../../assets/img/aopelogo.jpeg" alt="login" class="img-fluid center me-3" >
+                                    <img src="../assets/img/aopelogo.jpeg" alt="login" class="img-fluid center me-3" >
                                 </div>
                             </div>
                         </li>
@@ -87,7 +87,7 @@
 
                     <div class="d-flex align-items-center">
                         <div class="img img-fluid me-3">
-                            <img src="../../assets/img/02.jpg" alt="Admin Picture" height="40px" style="border-radius: 50% 40%  10% 40%;">
+                            <img src="../assets/img/02.jpg" alt="Admin Picture" height="40px" style="border-radius: 50% 40%  10% 40%;">
                         </div>
                         <p class="py-1 m-0">Sulaimon Yusuf Ayomide</p>
                         
@@ -134,11 +134,11 @@
     
 
 
-    <script src="../../resources/js/jquery.js"></script>
-    <script src="../../resources/js/popper.js"></script>
-    <script src="../../resources/js/sweetalert.min.js"></script>
-    <script src="../../resources/js/datatables.min.js"></script>
-    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/js/script.js"></script>
+    <script src="../resources/js/jquery.js"></script>
+    <script src="../resources/js/popper.js"></script>
+    <script src="../resources/js/sweetalert.min.js"></script>
+    <script src="../resources/js/datatables.min.js"></script>
+    <script src="../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
