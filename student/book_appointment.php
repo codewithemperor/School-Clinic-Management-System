@@ -22,8 +22,6 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
     <link rel="stylesheet" href="../resources/css/datatables.min.css">
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/remixicon/remixicon.css">
-    <link rel="stylesheet" href="../resources/css/sweetalert2.min.css">
-    <script src="../resources/js/sweetalert.min.js"></script>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
     <title>AOPE CLINIC MANAGEMENT SYSTEM - DASHBOARD</title>
@@ -51,13 +49,13 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
                 </div>
 
                 <div class="card-body mt-3">
-                    <?php  StudentAppointment(); ?>
+                    <?php  StudentAppointment(); updateAppointment();?>
                     <form action="" method="post" class="row m-0 g-2 needs-validation" novalidate>
                 
                         <div class="row p-0 m-0 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label mb-2" for="validationCustom01">Full Name</label>
-                                <input type="text" class="form-control" id="validationCustom01" value="<?php echo $_SESSION['fullname'] ?>" disabled required>
+                                <label class="form-label mb-2" for="v1">Full Name</label>
+                                <input type="text" class="form-control" id="v1" value="<?php echo $_SESSION['fullname'] ?>" disabled required>
                                 <div class="invalid-feedback">
                                     Please check your input and input correct details.
                                 </div>
@@ -67,8 +65,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
                             </div>
 
                             <div class="col-md-6 ">
-                                <label class="form-label mb-2" for="validationCustom02">Matric Number</label>
-                                <input type="number" class="form-control" id="validationCustom02" value="<?php echo $_SESSION['MatricNo'] ?>" disabled required>
+                                <label class="form-label mb-2" for="v2">Matric Number</label>
+                                <input type="number" class="form-control" id="v2" value="<?php echo $_SESSION['MatricNo'] ?>" disabled required>
                                 <div class="invalid-feedback">
                                     Please check your input and input correct details.
                                 </div>
@@ -80,8 +78,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
     
                         <div class="row p-0 m-0 mb-3">
                             <div class="col-md-4">
-                                <label class="form-label mb-2" for="validationCustom03">Select Doctor</label>
-                                <select class="form-select" id="validationCustom03" name="doctor" required>
+                                <label class="form-label mb-2" for="v3">Select Doctor</label>
+                                <select class="form-select" id="v3" name="doctor" required>
                                 <option value="" disabled selected>Please Select</option>
                                 <option value="Doctor1">Doctor 1</option>
                                 <option value="Doctor2">Doctor 2</option>
@@ -96,8 +94,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
                             </div>
 
                             <div class="col-md-4">
-                                <label class="form-label mb-2" for="validationCustom04">Appointment Date</label>
-                                <input type="date" class="form-control" id="validationCustom04" name="appointmentDate" required>
+                                <label class="form-label mb-2" for="v4">Appointment Date</label>
+                                <input type="date" class="form-control" id="v4" name="appointmentDate" required>
                                 <div class="invalid-feedback">
                                     Please check your input and input correct details.
                                 </div>
@@ -107,8 +105,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
                             </div>
 
                             <div class="col-md-4">
-                                <label class="form-label mb-2" for="validationCustom05">Appointment Time</label>
-                                <input type="time" class="form-control" id="validationCustom05" name="appointmentTime" required>
+                                <label class="form-label mb-2" for="v5">Appointment Time</label>
+                                <input type="time" class="form-control" id="v5" name="appointmentTime" required>
                                 <div class="invalid-feedback">
                                     Please check your input and input correct details.
                                 </div>
@@ -122,8 +120,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
 
                         <div class="row p-0 m-0 mb-3">
                         <div class="col">
-                            <label class="form-label mb-2" for="validationCustom06">Appointment Note</label>
-                            <textarea class="form-control" id="validationCustom06" rows="4" placeholder="Please write some note" name="appointmentNote" required></textarea>
+                            <label class="form-label mb-2" for="v6">Appointment Note</label>
+                            <textarea class="form-control" id="v6" rows="4" placeholder="Please write some note" name="appointmentNote" required></textarea>
                             <div class="invalid-feedback">
                                 Please check your input and input correct details.
                             </div>
@@ -144,6 +142,131 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
                     </form>
 
                     <?php showStudentAppointment(); ?>
+                    
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+
+                            
+
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Appointment</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+
+                            <div class="modal-body">
+                            
+                                <form action="" method="post" class="row m-0 g-2 needs-validation" novalidate>
+
+                                    <div class="row p-0 m-0 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-2" for="validationCustom01">Full Name</label>
+                                            <input type="text" class="form-control" id="validationCustom01" value="<?php echo $_SESSION['fullname'] ?>" disabled required>
+                                            <div class="invalid-feedback">
+                                                Please check your input and input correct details.
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 ">
+                                            <label class="form-label mb-2" for="validationCustom02">Matric Number</label>
+                                            <input type="number" class="form-control" id="validationCustom02" value="<?php echo $_SESSION['MatricNo'] ?>" disabled required>
+                                            <div class="invalid-feedback">
+                                                Please check your input and input correct details.
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="row p-0 m-0 mb-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-2" for="validationCustom03">Select Doctor</label>
+                                            <select class="form-select" id="validationCustom03" name="doctor" required>
+                                            <option value="" disabled selected>Please Select</option>
+                                            <option value="Doctor1">Doctor 1</option>
+                                            <option value="Doctor2">Doctor 2</option>
+                                            </select>
+                                            
+                                            <div class="invalid-feedback">
+                                                Please check your input and input correct details.
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-2" for="validationCustom04">Appointment Date</label>
+                                            <input type="date" class="form-control" id="validationCustom04" name="appointmentDate" required>
+                                            <div class="invalid-feedback">
+                                                Please check your input and input correct details.
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-2" for="validationCustom05">Appointment Time</label>
+                                            <input type="time" class="form-control" id="validationCustom05" name="appointmentTime" required>
+                                            <div class="invalid-feedback">
+                                                Please check your input and input correct details.
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                        
+                                    
+                                    </div>
+
+                                    <div class="row p-0 m-0 mb-3">
+                                    <div class="col">
+                                        <label class="form-label mb-2" for="validationCustom06">Appointment Note</label>
+                                        <textarea class="form-control" id="validationCustom06" rows="4" placeholder="Please write some note" name="appointmentNote" required><?php 
+                                                global $conn;
+                                                $query =  mysqli_query($conn, "SELECT * FROM studentappointment WHERE MatricNo = '$_SESSION[MatricNo]'"); 
+                                            
+                                                if ($query === false){exit();}
+
+                                                else{
+                                                    while ($row = mysqli_fetch_assoc($query)) {
+                                                        echo $AppointmentNote = $row['appointmentNote'];
+                                                        }}
+                                            ?></textarea>
+                                        <div class="invalid-feedback">
+                                            Please check your input and input correct details.
+                                        </div>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="row p-0 m-0 mb-3">
+                                        <div class="col-md-3 col-sm-6 mb-2">
+                                            <button type="submit" name="updateAppointment" class="btn btn-primary w-100">Update Appointment</button>
+                                        </div>
+
+                                        <div class="col-md-2 col-sm-6 mb-2">
+                                            <input type="reset" value="Reset" name="reset" class="btn btn-danger w-100">
+                                        </div>
+                                        
+                                    </div>
+                                
+                                </form>
+                        
+                    
+                            </div>
+
+                        </div>
+                        </div>                    
+
                 </div>
                 
             </div>
@@ -186,6 +309,7 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
         });
     });
 
+        
 
         
         $('.delete-record').on('click', function(e){
@@ -196,8 +320,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#157347",
         confirmButtonText: "Yes, delete it!"
     }).then((result) => {
         if (result.value){
@@ -205,6 +329,7 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
         }
     });
 });
+
 
     </script>
 </body>

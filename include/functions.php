@@ -352,7 +352,7 @@ function showStudentAppointment() {
             $Time = $row['Time'];
             $AppointmentNote = $row['appointmentNote'];
             
-            echo '<div class="mt-4 px-2">';
+            echo '<div class="mt-4 px-2 table-responsive">';
             echo '<table class="table table-hover" id="example">';
             echo '<thead class="table-dark">';
             echo '<tr class="align-middle">';                    
@@ -373,18 +373,75 @@ function showStudentAppointment() {
             echo "<td>{$Time}</td>";
             echo "<td>{$AppointmentNote}</td>";
             echo "<td class='d-flex  '>";
-            echo "<a href='' class='col p-1 btn bg-primary me-1'><i class='ri-edit-2-fill'></i></a>";
+            echo "<a href='' class='col p-1 btn bg-primary me-1' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class='ri-edit-2-fill'></i></a>";
             echo "<a href='../include/delete.php?id={$row['MatricNo']}' class='col p-1 btn bg-danger text-white me-1 delete-record'><i class='ri-delete-bin-5-fill'></i></a>";
             echo "</td>";
             echo "</tr>";
 
             echo "</table>";
             echo "</div>";
+
+            
         }
     
 }
 }
 
+// ******************
+// Show Appointment booked by Student
+// ******************
+function updateAppointment() {
+    global $conn;
+
+   
+
+// Check if form is submitted
+if(isset($_POST["updateAppointment"])) {
+    // Extract form data
+    $studentMatricNo = $_SESSION['MatricNo'];
+    $doctorName = $_POST["doctor"] ?? '';
+    $appointmentDate = $_POST["appointmentDate"] ?? '';
+    $appointmentTime = $_POST["appointmentTime"] ?? '';
+    $appointmentNote = $_POST["appointmentNote"] ?? '';
+
+    if(empty($doctorName) || empty($appointmentDate) || empty($appointmentTime) || empty($appointmentNote)) {
+        // Check which fields are missing and display corresponding alerts
+        if(empty($doctorName)) {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Doctor name is required<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+        if(empty($appointmentDate)) {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Appointment date is required<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+        if(empty($appointmentTime)) {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Appointment time is required<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+        if(empty($appointmentNote)) {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Appointment note is required<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+    } 
+
+    else {
+    // Prepare and execute the update query
+    $query = "UPDATE studentappointment SET DoctorName = ?, Date = ?, Time = ?, appointmentNote = ? WHERE MatricNo = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("sssss", $doctorName, $appointmentDate, $appointmentTime, $appointmentNote, $studentMatricNo);
+    $stmt->execute();
+
+    // Check if the update was successful
+    if($stmt->affected_rows > 0) {
+        // Update successful
+        echo "<div class='alert alert-success' role='alert'>Appointment updated successfully</div>";
+    } else {
+        // Update failed
+        echo "<div class='alert alert-danger' role='alert'>Error updating appointment</div>";
+    }
+
+    // Close the statement
+    $stmt->close();
+    }
+}
+    
+}
 
 
 // ****************************************************************************************
