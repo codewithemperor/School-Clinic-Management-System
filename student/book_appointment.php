@@ -22,6 +22,8 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
     <link rel="stylesheet" href="../resources/css/datatables.min.css">
     <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/css/remixicon/remixicon.css">
+    <link rel="stylesheet" href="../resources/css/sweetalert2.min.css">
+    <script src="../resources/js/sweetalert.min.js"></script>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
     <title>AOPE CLINIC MANAGEMENT SYSTEM - DASHBOARD</title>
@@ -133,10 +135,10 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
                             
                         <div class="row p-0 m-0 mb-3">
                             <div class="col-md-3 col-sm-6 mb-2">
-                            <input type="submit" value="Book Appointment" name="bookappointment" class="btn btn-success w-100">
+                            <button type="submit" name="bookappointment" class="btn btn-success w-100">Book Appointment</button>
                             </div>
                             <div class="col-md-2 col-sm-6 mb-2">
-                            <input type="submit" value="Reset" name="addProduct" class="btn btn-danger w-100">
+                            <input type="reset" value="Reset" name="reset" class="btn btn-danger w-100">
                             </div>
                         </div>
                     </form>
@@ -154,9 +156,56 @@ elseif (!isset($_SESSION['RegistrationValue']) || $_SESSION['RegistrationValue']
 
     <script src="../resources/js/jquery.js"></script>
     <script src="../resources/js/popper.js"></script>
-    <script src="../resources/js/sweetalert.min.js"></script>
     <script src="../resources/js/datatables.min.js"></script>
     <script src="../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../assets/js/script.js"></script>
+    <script>
+        
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.needs-validation');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const warningButton = document.getElementById('warning-button');
+
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        });
+
+        form.addEventListener('input', function() {
+            if (form.checkValidity()) {
+                submitButton.disabled = false;
+                warningButton.disabled = true;
+            } else {
+                submitButton.disabled = true;
+                warningButton.disabled = false;
+            }
+        });
+    });
+
+
+        
+        $('.delete-record').on('click', function(e){
+    e.preventDefault();
+    var href = $(this).attr('href'); // Capture the href attribute
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.value){
+            document.location.href = href; // Redirect to the captured href
+        }
+    });
+});
+
+    </script>
 </body>
 </html>

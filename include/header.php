@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between shadow-lg py-4 px-3">
-    <div class="col d-none d-lg-block s-3">
+    <div class="col d-none d-md-block s-3">
         <span class="icon">
             <i class="ri-menu-line toggle  "  style="font-size: 25px;"></i>
         </span>

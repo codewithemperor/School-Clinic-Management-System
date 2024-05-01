@@ -1,10 +1,81 @@
 <?php require_once 'db.php'; 
 
+// ****************************************************************************************
+// ************************************* Student  Code ************************************
+// ****************************************************************************************
+
+// ******************
+// Student Login
+// ******************
+function studentlogin () {
+    global $conn;
+
+    if (isset($_POST['stulogin'])) {
+
+        $loginmatric = $_POST['loginmatric'];
+        $loginpass = $_POST['loginpass'];
+
+        $query = mysqli_query($conn, "SELECT * FROM studentdata WHERE MatricNo = '$loginmatric'");
+
+        // $num_rows = mysql_num_rows($query);
+
+        if ($query !== false) {
+            // Check if the query returned any rows
+            if (mysqli_num_rows($query) > 0) {
+                // Fetch an associative array
+                
+                $row = mysqli_fetch_assoc($query);
+
+                // Use the data in $row
+                // ...
+
+                // Free the result set
+                mysqli_free_result($query);
+
+                $db_fullName = $row['FullName'];
+                $db_matric = $row['MatricNo'];
+                $db_password = $row['StuPassword'];
+                $db_phone = $row['PhoneNumber'];
+                $db_email = $row['Email'];
+                $db_registrationValue = $row['RegistrationValue'];
+                $db_image = $row['Image'];
+
+                $_SESSION['fullname'] = $db_fullName;
+                $_SESSION['MatricNo'] = $db_matric;
+                $_SESSION['PhoneNumber'] = $db_phone;
+                $_SESSION['Email'] = $db_email;
+                $_SESSION['Image'] = $db_image;
+                $_SESSION['RegistrationValue'] = $db_registrationValue;
+
+                if (($loginmatric == $db_matric && $loginpass == $db_password) && $db_registrationValue == 0) {
+                    header("Location: student/student_registration.php");
+                    exit(); // Ensure no further code execution after redirection
+                } elseif (($loginmatric == $db_matric && $loginpass == $db_password) && $db_registrationValue == 1) {
+                    header("Location: student/");
+                    exit(); // Ensure no further code execution after redirection
+                } else {
+                    echo "<div class='alert alert-danger' role='alert'>Wrong Matric No or Password</div>";
+                }
+            } else {
+                echo "<div class='alert alert-danger' role='alert'>
+                <span>No such user found. Create a new Account</span>
+                <a href='student/create_account.php'>here</a> </div>";
+            }
+        } else {
+            // Log the error instead of showing it directly to the user
+            error_log("MySQL Error: " . mysqli_error($conn));
+            echo "<div class='alert alert-danger' role='alert'>An unexpected error occurred. Please try again later.</div>";
+        }
+        
+    }
+
+}
 
 
-// create student code start here
 
-
+// ******************
+// Add student_registration.php to database
+// ******************
 
 function addStudent() {
     global $conn;
@@ -71,75 +142,10 @@ function addStudent() {
 }
 
 
-// create student code end here here
+// ******************
+// Add the remaining data from student_registration.php to database
+// ******************
 
-// Student Login Code
-function studentlogin () {
-    global $conn;
-
-    if (isset($_POST['stulogin'])) {
-
-        $loginmatric = $_POST['loginmatric'];
-        $loginpass = $_POST['loginpass'];
-
-        $query = mysqli_query($conn, "SELECT * FROM studentdata WHERE MatricNo = '$loginmatric'");
-
-        // $num_rows = mysql_num_rows($query);
-
-        if ($query !== false) {
-            // Check if the query returned any rows
-            if (mysqli_num_rows($query) > 0) {
-                // Fetch an associative array
-                
-                $row = mysqli_fetch_assoc($query);
-
-                // Use the data in $row
-                // ...
-
-                // Free the result set
-                mysqli_free_result($query);
-
-                $db_fullName = $row['FullName'];
-                $db_matric = $row['MatricNo'];
-                $db_password = $row['StuPassword'];
-                $db_phone = $row['PhoneNumber'];
-                $db_email = $row['Email'];
-                $db_registrationValue = $row['RegistrationValue'];
-                $db_image = $row['Image'];
-
-                $_SESSION['fullname'] = $db_fullName;
-                $_SESSION['MatricNo'] = $db_matric;
-                $_SESSION['PhoneNumber'] = $db_phone;
-                $_SESSION['Email'] = $db_email;
-                $_SESSION['Image'] = $db_image;
-                $_SESSION['RegistrationValue'] = $db_registrationValue;
-
-                if (($loginmatric == $db_matric && $loginpass == $db_password) && $db_registrationValue == 0) {
-                    header("Location: student/student_registration.php");
-                    exit(); // Ensure no further code execution after redirection
-                } elseif (($loginmatric == $db_matric && $loginpass == $db_password) && $db_registrationValue == 1) {
-                    header("Location: student/");
-                    exit(); // Ensure no further code execution after redirection
-                } else {
-                    echo "<div class='alert alert-danger' role='alert'>Wrong Matric No or Password</div>";
-                }
-            } else {
-                echo "<div class='alert alert-danger' role='alert'>
-                <span>No such user found. Create a new Account</span>
-                <a href='student/create_account.php'>here</a> </div>";
-            }
-        } else {
-            // Log the error instead of showing it directly to the user
-            error_log("MySQL Error: " . mysqli_error($conn));
-            echo "<div class='alert alert-danger' role='alert'>An unexpected error occurred. Please try again later.</div>";
-        }
-        
-    }
-
-}
-
-
-// Add the remaining data from student_registration.php
 function addOtherStudentRecord (){
 
     global $conn;
@@ -253,11 +259,46 @@ function addOtherStudentRecord (){
     }
 }
 
+
+
+// ******************
+// Show Student Personal Records + Medical Records
+// ******************
+function showRecord() {
+
+    global $conn;
+
+    $session_matric = $_SESSION['MatricNo'];
+
+        $query = mysqli_query($conn, "SELECT * FROM studenthealth WHERE MatricNo = '$session_matric'");
+
+        // $num_rows = mysql_num_rows($query);
+
+        if ($query !== false) {
+        // Check if the query returned any rows
+            if (mysqli_num_rows($query) > 0) {
+                // Fetch an associative array
+                $row = mysqli_fetch_assoc($query);
+
+                // Use the data in $row
+                foreach ($row as $columnName => $columnValue) {
+                    //Store each column value in a session variable
+                    $_SESSION[$columnName] = $columnValue;
+                }
+
+                // Free the result set
+                mysqli_free_result($query);
+            }
+    }
+}
+
+// ******************
+// Add Student Appointment booked to database
+// ******************
 function StudentAppointment() {
     global $conn;
 
     if (isset($_POST["bookappointment"])) {
-
         $studentFullName = $_SESSION['fullname'];
         $studentMatricNo = $_SESSION['MatricNo'];
         $doctorName = $_POST["doctor"];
@@ -265,28 +306,33 @@ function StudentAppointment() {
         $appointmentTime = $_POST["appointmentTime"];
         $appointmentNote = $_POST["appointmentNote"];
 
-        $query = "INSERT INTO studentappointment (MatricNo, FullName, DoctorName, Date, Time, appointmentNote) VALUES('$studentMatricNo', '$studentFullName', '$doctorName', '$appointmentDate', '$appointmentTime', '$appointmentNote')";
+        $query = "INSERT INTO studentappointment (FullName, MatricNo, DoctorName, Date, Time, appointmentNote) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssssss", $studentFullName, $studentMatricNo, $doctorName, $appointmentDate, $appointmentTime, $appointmentNote);
 
         $userQuery = mysqli_query($conn, "SELECT * FROM studentappointment WHERE MatricNo = '$studentMatricNo'");
         $num_rows = mysqli_num_rows($userQuery);
 
         if ($num_rows == 1) {
-            
-            while( $row = mysqli_fetch_assoc($userQuery)) {
-                echo "<div class= 'alert alert-danger' role='alert'>You can't book more than one Appointment at a time. You can simply edit your appointment</div>";
+            echo "<div class='alert alert-danger' role='alert'>You can't book more than one Appointment at a time. You can simply edit your appointment</div>";
+        } else {
+            $stmt->execute(); // Execute the prepared statement
+            if ($stmt->affected_rows > 0) {
+                echo "<div class='alert alert-success' role='alert'>Appointment Booked</div>";
+            } else {
+                echo "<div class='alert alert-danger' role='alert'>Error booking appointment</div>";
             }
         }
-
-        else {
-            $run = mysqli_query($conn, $query);
-    
-            if ($run) {
-                echo "<div class= 'alert alert-success' role='alert'>Appointment Booked</div>";
-            }
-        }
+        // Close the prepared statement
+        $stmt->close();
     }
 }
 
+
+
+// ******************
+// Show Appointment booked by Student
+// ******************
 function showStudentAppointment() {
     global $conn;
 
@@ -328,7 +374,7 @@ function showStudentAppointment() {
             echo "<td>{$AppointmentNote}</td>";
             echo "<td class='d-flex  '>";
             echo "<a href='' class='col p-1 btn bg-primary me-1'><i class='ri-edit-2-fill'></i></a>";
-            echo "<a href='' class='col p-1 btn bg-danger text-white me-1'><i class='ri-delete-bin-5-fill'></i></a>";
+            echo "<a href='../include/delete.php?id={$row['MatricNo']}' class='col p-1 btn bg-danger text-white me-1 delete-record'><i class='ri-delete-bin-5-fill'></i></a>";
             echo "</td>";
             echo "</tr>";
 
@@ -340,36 +386,10 @@ function showStudentAppointment() {
 }
 
 
-// Show student record 
-function showRecord() {
 
-    global $conn;
-
-    $session_matric = $_SESSION['MatricNo'];
-
-        $query = mysqli_query($conn, "SELECT * FROM studenthealth WHERE MatricNo = '$session_matric'");
-
-        // $num_rows = mysql_num_rows($query);
-
-        if ($query !== false) {
-        // Check if the query returned any rows
-            if (mysqli_num_rows($query) > 0) {
-                // Fetch an associative array
-                $row = mysqli_fetch_assoc($query);
-
-                // Use the data in $row
-                foreach ($row as $columnName => $columnValue) {
-                    // Store each column value in a session variable
-                    $_SESSION[$columnName] = $columnValue;
-                }
-
-                // Free the result set
-                mysqli_free_result($query);
-            }
-    }
-}
-
-
+// ****************************************************************************************
+// *********************************** Admin  Code ****************************************
+// ****************************************************************************************
 function showRecordTable() {
     global $conn;
 
@@ -400,7 +420,7 @@ function showRecordTable() {
             echo "<td class='d-flex  '>";
             echo "<a href='' class='col p-1 btn bg-secondary me-1'><i class='ri-eye-fill'></i></a>";
             echo "<a href='' class='col p-1 btn bg-primary me-1'><i class='ri-edit-2-fill'></i></a>";
-            echo "<a href='' class='col p-1 btn bg-danger text-white me-1'><i class='ri-delete-bin-5-fill'></i></a>";
+            echo "<a href='?delete' class='col p-1 btn bg-danger text-white me-1'><i class='ri-delete-bin-5-fill'></i></a>";
             echo "</td>";
             echo "</tr>";
         }
@@ -414,19 +434,20 @@ function showRecordTable() {
 }
 
 
+
 // Logout function
 function logout() {
     if (isset($_POST['logout'])) {
         session_unset();
         session_destroy();
-        header("Location: ../../index.php");
+        header("Location: ../index.php");
     }
 }
 
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: ../../index.php");
+    header("Location: ../index.php");
 }
 
 ?>
